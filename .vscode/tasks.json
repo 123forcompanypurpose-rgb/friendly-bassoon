@@ -1,0 +1,19 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "NovelVerse backend (local)",
+			"type": "shell",
+			"command": "bash",
+			"args": [
+				"-lc",
+				"set -a; . ./.env; set +a; export DB_URL=\"jdbc:postgresql://localhost:5432/$POSTGRES_DB\"; export DB_USER=\"$POSTGRES_USER\"; export DB_PASSWORD=\"$POSTGRES_PASSWORD\"; export JWT_SECRET=$(openssl rand -hex 64); export IP_HASH_SALT=$(openssl rand -hex 32); export APP_WEB_ORIGIN=\"http://localhost:3000\"; cd backend; exec env JAVA_TOOL_OPTIONS=-Dnet.bytebuddy.experimental=true ./mvnw spring-boot:run"
+			],
+			"isBackground": true,
+			"problemMatcher": [
+				"$maven"
+			],
+			"group": "build"
+		}
+	]
+}

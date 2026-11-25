@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/novelverse}
+    username: ${DB_USER:novelverse}
+    password: ${DB_PASSWORD:novelverse_dev_only}
+app:
+  web-origin: http://localhost:3000
+  cookie-domain: ""
+  cookie-secure: false
+  jwt:
+    secret: test-only-jwt-secret-with-more-than-512-bits-do-not-use-in-production--novelverse-2026
+    issuer: novelverse-test
+    access-ttl: PT15M
+    refresh-ttl: P30D
+  ip-hash-salt: test-only-ip-hash-salt-not-for-production
+  google:
+    client-id: test-google-client-id
+  storage:
+    s3:
+      enabled: false
+      bucket: novelverse-test
+      public-base-url: ""
+  openapi:
+    public-docs: true
