@@ -41,6 +41,8 @@
 > verification passes. PostgreSQL/Testcontainers integration tests remain
 > skipped because the available Docker API is older than the minimum supported
 > version; see `DECISIONS.md`.
+> Browser API requests use the same-origin Next.js proxy, avoiding remote
+> Codespace browsers interpreting `localhost:8080` as the viewer's device.
 
 ## Phase 4 — Writer Studio
 - [ ] Dashboard, story form, cover cropper

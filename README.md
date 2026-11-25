@@ -53,8 +53,11 @@ Prerequisites: Java 21, Node.js 20+, pnpm 10+, and Docker Compose.
    ```
 
    Open <http://localhost:3000>. The home, browse, story, and reader pages load
-   public content from the backend API. The API health check remains available
-   at <http://localhost:8080/api/v1/health>. Set
+   public content from the backend through a same-origin `/api/v1` proxy. This
+   also works when the frontend is opened through a remote Codespace port
+   forward, where browser-side `localhost:8080` would refer to the viewer's
+   device. The backend health check remains available at
+   <http://localhost:8080/api/v1/health>. Set
    `NEXT_PUBLIC_GOOGLE_CLIENT_ID` in `frontend/.env.local` to enable Google
    sign-in; leave it empty to show the unavailable-state message. Use **Log in**
    and **Sign up** in the header to access the auth forms.

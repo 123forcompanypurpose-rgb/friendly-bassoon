@@ -35,8 +35,10 @@
   Flyway history ended at `V5`; `V6` now creates the table only when absent so
   startup can adopt that existing lock table without dropping data.
 - Phase 3 uses the generated OpenAPI types for public content and auth requests.
-  The frontend reads the browser API from `NEXT_PUBLIC_API_URL` and server
-  requests from `API_URL`.
+  Browser API requests use same-origin `/api/v1` paths and Next.js rewrites to
+  the backend configured by `API_URL` (or `API_INTERNAL_URL`). This avoids
+  `localhost` resolving to the visitor's device in a remote Codespace. Next.js
+  server-side data fetching uses the same internal API URL.
 - `/sitemap.xml` serves an XML sitemap index; individual public sitemap files
   contain at most 5,000 URLs and are generated from paginated published-story
   results.

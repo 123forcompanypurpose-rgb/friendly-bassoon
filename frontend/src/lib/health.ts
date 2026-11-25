@@ -7,11 +7,18 @@ export type HealthResult =
   | { available: false; status: "UNAVAILABLE" };
 
 export async function getApiHealth(): Promise<HealthResult> {
-  const apiUrl =
-    process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8080/api/v1";
+  const apiBase =
+    typeof window !== "undefined"
+      ? "/api/v1"
+      : (process.env.API_URL ??
+        process.env.API_INTERNAL_URL ??
+        process.env.NEXT_PUBLIC_API_URL ??
+        "http://127.0.0.1:8080/api/v1");
 
   try {
-    const response = await fetch(`${apiUrl}/health`, { cache: "no-store" });
+    const response = await fetch(`${apiBase.replace(/\/+$/, "")}/health`, {
+      cache: "no-store",
+    });
     const health = (await response.json()) as ApiHealth;
 
     if (!response.ok || (health.status !== "UP" && health.status !== "DOWN")) {

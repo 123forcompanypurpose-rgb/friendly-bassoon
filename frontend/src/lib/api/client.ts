@@ -1,11 +1,14 @@
 import type { components } from "./schema";
 
-const API_BASE =
-  typeof window === "undefined"
-    ? (process.env.API_URL ??
-      process.env.NEXT_PUBLIC_API_URL ??
-      "http://localhost:8080/api/v1")
-    : (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8080/api/v1");
+function apiBase() {
+  if (typeof window !== "undefined") return "/api/v1";
+  return (
+    process.env.API_URL ??
+    process.env.API_INTERNAL_URL ??
+    process.env.NEXT_PUBLIC_API_URL ??
+    "http://127.0.0.1:8080/api/v1"
+  );
+}
 
 export type HomeResponse = components["schemas"]["HomeResponse"];
 export type Genre = components["schemas"]["GenreResponse"];
@@ -66,7 +69,7 @@ async function decode<T>(response: Response): Promise<T> {
 }
 
 function apiUrl(path: string) {
-  return `${API_BASE.replace(/\/+$/, "")}${path}`;
+  return `${apiBase().replace(/\/+$/, "")}${path}`;
 }
 
 export async function getPublicJson<T>(

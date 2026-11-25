@@ -46,7 +46,7 @@ Same registrable domain for web and api is required for cookies (`Domain=.novelv
 | `SENTRY_DSN` | |
 | `JAVA_TOOL_OPTIONS` | `-XX:+UseSerialGC -Xms128m -Xmx384m -XX:MaxMetaspaceSize=128m -Xss512k` |
 ### Frontend
-`NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_API_URL` (`https://api.novelverse.com/api/v1`), `API_INTERNAL_URL` (server-side), `NEXT_PUBLIC_GOOGLE_CLIENT_ID`, `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `REVALIDATE_SECRET`, `NEXT_PUBLIC_SENTRY_DSN`.
+`NEXT_PUBLIC_SITE_URL`, `API_URL` (server-side backend base URL, e.g. `https://api.novelverse.com/api/v1`; proxied by the frontend for browser requests), `NEXT_PUBLIC_GOOGLE_CLIENT_ID`, `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `REVALIDATE_SECRET`, `NEXT_PUBLIC_SENTRY_DSN`.
 
 ## 4. Step-by-step
 
@@ -99,7 +99,7 @@ Note: Oracle may reclaim idle free instances; keep light activity (monitoring pi
 3. Add custom domain `api.novelverse.com` (CNAME) in Render + Cloudflare.
 
 ### Step 4 — Frontend
-**Vercel (launch):** Import repo → root dir `frontend` → set env vars → deploy → add domain `novelverse.com` and `www` redirect. Set `NEXT_PUBLIC_API_URL`. 
+**Vercel (launch):** Import repo → root dir `frontend` → set env vars → deploy → add domain `novelverse.com` and `www` redirect. Set `API_URL` to a backend address reachable from the Next.js server.
 **Option C — self-host on the same Oracle VM (commercial-safe, free):** add to compose:
 ```yaml
   frontend:
