@@ -28,6 +28,9 @@ Prerequisites: Java 21, Node.js 20+, pnpm 10+, and Docker Compose.
    ./mvnw spring-boot:run
    ```
 
+   Or use the VS Code task **NovelVerse backend (local)**. It detects a healthy
+   backend on port 8080 and won't start a duplicate instance.
+
    The API health check is at <http://localhost:8080/api/v1/health> and the
    Actuator health check is at <http://localhost:8080/actuator/health>. Flyway
    applies the database migrations at startup. Swagger UI is at
