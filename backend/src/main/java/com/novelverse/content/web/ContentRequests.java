@@ -59,4 +59,10 @@ public final class ContentRequests {
       @Min(1) @Max(2_097_152) long contentLength) {}
 
   public record ConfirmCoverRequest(@NotBlank @Size(max = 250) String objectKey) {}
+
+  public record PresignChapterImageRequest(
+      @NotBlank @Pattern(regexp = "image/(jpeg|png|webp)") String contentType,
+      @Min(1) @Max(5_242_880) long contentLength) {}
+
+  public record ConfirmChapterImageRequest(@NotBlank @Size(max = 250) String objectKey) {}
 }

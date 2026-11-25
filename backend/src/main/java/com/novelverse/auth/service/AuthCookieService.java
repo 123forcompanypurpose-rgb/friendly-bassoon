@@ -13,6 +13,7 @@ public class AuthCookieService {
 
   private static final String ACCESS_COOKIE = "access_token";
   private static final String REFRESH_COOKIE = "refresh_token";
+  private static final String SESSION_COOKIE = "session_present";
 
   private final JwtService jwtService;
   private final boolean secure;
@@ -31,18 +32,35 @@ public class AuthCookieService {
       HttpServletResponse response, AuthService.SessionCredentials credentials) {
     addCookie(response, ACCESS_COOKIE, credentials.accessToken(), jwtService.getAccessTtl(), "/");
     addCookie(response, REFRESH_COOKIE, credentials.refreshToken(), credentials.refreshTtl(), "/");
+    addReadableCookie(response, SESSION_COOKIE, "1", credentials.refreshTtl(), "/");
   }
 
   public void clearSessionCookies(HttpServletResponse response) {
     addCookie(response, ACCESS_COOKIE, "", Duration.ZERO, "/");
     addCookie(response, REFRESH_COOKIE, "", Duration.ZERO, "/");
+    addReadableCookie(response, SESSION_COOKIE, "", Duration.ZERO, "/");
   }
 
   private void addCookie(
       HttpServletResponse response, String name, String value, Duration maxAge, String path) {
+    addCookie(response, name, value, maxAge, path, true);
+  }
+
+  private void addReadableCookie(
+      HttpServletResponse response, String name, String value, Duration maxAge, String path) {
+    addCookie(response, name, value, maxAge, path, false);
+  }
+
+  private void addCookie(
+      HttpServletResponse response,
+      String name,
+      String value,
+      Duration maxAge,
+      String path,
+      boolean httpOnly) {
     ResponseCookie.ResponseCookieBuilder builder =
         ResponseCookie.from(name, value)
-            .httpOnly(true)
+            .httpOnly(httpOnly)
             .secure(secure)
             .sameSite("Lax")
             .path(path)

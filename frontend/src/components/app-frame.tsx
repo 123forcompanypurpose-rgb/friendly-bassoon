@@ -77,7 +77,15 @@ export function AppFrame({ children }: { children: React.ReactNode }) {
   );
 
   useEffect(() => {
-    if (isStandalone) return;
+    const hasSession = document.cookie
+      .split(";")
+      .some((cookie) => cookie.trim() === "session_present=1");
+
+    if (isStandalone || !hasSession) {
+      setAccountLoaded(true);
+      return;
+    }
+
     getCurrentUser()
       .then(setUser)
       .catch((error: unknown) => {

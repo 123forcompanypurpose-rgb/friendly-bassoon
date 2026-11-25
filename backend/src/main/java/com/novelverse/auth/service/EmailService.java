@@ -20,7 +20,23 @@ public class EmailService {
       @Value("${app.web-origin}") String webOrigin) {
     this.mailSender = mailSender;
     this.sender = sender;
-    this.webOrigin = URI.create(webOrigin);
+    this.webOrigin = URI.create(resolveWebOrigin(webOrigin));
+  }
+
+  private String resolveWebOrigin(String configuredOrigin) {
+    if (!"http://localhost:3000".equals(configuredOrigin)) {
+      return configuredOrigin;
+    }
+
+    String codespaceName = System.getenv("CODESPACE_NAME");
+    String forwardingDomain = System.getenv("GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN");
+    if (codespaceName != null
+        && !codespaceName.isBlank()
+        && forwardingDomain != null
+        && !forwardingDomain.isBlank()) {
+      return "https://" + codespaceName + "-3000." + forwardingDomain;
+    }
+    return configuredOrigin;
   }
 
   public void sendVerification(String email, String rawToken) {

@@ -5,6 +5,7 @@ import com.novelverse.security.ApiAuthenticationEntryPoint;
 import com.novelverse.security.CsrfHeaderFilter;
 import com.novelverse.security.JwtAuthenticationFilter;
 import com.novelverse.security.RateLimitFilter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
@@ -123,11 +124,23 @@ public class SecurityConfig {
   CorsConfigurationSource corsConfigurationSource(
       @Value("${app.web-origin}") String allowedOrigins) {
     CorsConfiguration cors = new CorsConfiguration();
-    cors.setAllowedOrigins(
-        Arrays.stream(allowedOrigins.split(","))
-            .map(String::trim)
-            .filter(origin -> !origin.isEmpty())
-            .toList());
+    List<String> origins =
+        new ArrayList<>(
+            Arrays.stream(allowedOrigins.split(","))
+                .map(String::trim)
+                .filter(origin -> !origin.isEmpty())
+                .toList());
+    String codespaceName = System.getenv("CODESPACE_NAME");
+    String forwardingDomain = System.getenv("GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN");
+    if (codespaceName != null
+        && !codespaceName.isBlank()
+        && forwardingDomain != null
+        && !forwardingDomain.isBlank()) {
+      origins.add("https://" + codespaceName + "-3000." + forwardingDomain);
+    }
+    origins.add("http://localhost:3000");
+    origins.add("http://127.0.0.1:3000");
+    cors.setAllowedOrigins(origins);
     cors.setAllowCredentials(true);
     cors.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
     cors.setAllowedHeaders(List.of("Content-Type", "X-Requested-With", "Accept"));

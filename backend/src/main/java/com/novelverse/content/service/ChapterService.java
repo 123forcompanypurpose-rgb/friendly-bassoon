@@ -373,7 +373,7 @@ public class ChapterService {
     return story;
   }
 
-  private Chapter requireOwnedChapter(Long userId, Long chapterId) {
+  public Chapter requireOwnedChapter(Long userId, Long chapterId) {
     contentAccess.requireVerifiedAuthor(userId);
     Chapter chapter =
         chapterRepository

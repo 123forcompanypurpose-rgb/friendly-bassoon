@@ -45,11 +45,11 @@
 > Codespace browsers interpreting `localhost:8080` as the viewer's device.
 
 ## Phase 4 — Writer Studio
-- [ ] Dashboard, story form, cover cropper
-- [ ] Chapter list reorder
-- [ ] Tiptap editor + autosave + publish/schedule
-- [ ] On-demand revalidation
-- [ ] Playwright E2E (write → publish → read)
+- [x] Dashboard, story form, cover cropper
+- [x] Chapter list reorder
+- [x] Tiptap editor + autosave + publish/schedule
+- [x] On-demand revalidation
+- [x] Playwright E2E (write → publish → read)
 
 ## Phase 5 — Library & progress
 - [ ] Progress API + resume
